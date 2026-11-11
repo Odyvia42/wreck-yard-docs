@@ -10,7 +10,7 @@ export default defineConfig({
 		starlight({
 			title: 'Wreck Yard Docs',			
 			sidebar: [
-				{ label: 'О проекте', items: ['about'] },
+				{ label: 'О проекте', slug: 'about' },
 				{					
 					label: 'Guides',
 					items: [
