@@ -4,6 +4,8 @@ import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
+	site: 'https://Odyvia42.github.io',
+    base: '/wreck-yard-docs',
 	integrations: [
 		starlight({
 			title: 'My Docs',
