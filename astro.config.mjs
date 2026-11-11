@@ -15,7 +15,7 @@ export default defineConfig({
 					label: 'Leyland',
 					items: [
 						// Each item here is one entry in the navigation menu.
-						{ label: 'Leyland P76 1973-1976', slug: 'guides/example' },
+						{ label: 'Leyland P76 1973-1976', slug: 'leyland/leyland-p76-1973-1976' },
 					],
 				},				
 			],
