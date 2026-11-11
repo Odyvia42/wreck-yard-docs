@@ -8,10 +8,10 @@ export default defineConfig({
     base: '/wreck-yard-docs',
 	integrations: [
 		starlight({
-			title: 'My Docs',
-			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/withastro/starlight' }],
+			title: 'Wreck Yard Docs',			
 			sidebar: [
 				{
+					{ label: 'О проекте', slug: 'about' },
 					label: 'Guides',
 					items: [
 						// Each item here is one entry in the navigation menu.
