@@ -8,7 +8,7 @@ export default defineConfig({
     base: '/wreck-yard-docs',
 	integrations: [
 		starlight({
-			title: 'Wreck Yard Docs',			
+			title: 'Энциклопедия Wreck Yard',
 			sidebar: [
 				{ label: 'О проекте', slug: 'about' },
 				{					
@@ -17,11 +17,7 @@ export default defineConfig({
 						// Each item here is one entry in the navigation menu.
 						{ label: 'Example Guide', slug: 'guides/example' },
 					],
-				},
-				{
-					label: 'Reference',
-					items: [{ autogenerate: { directory: 'reference' } }],
-				},
+				},				
 			],
 		}),
 	],
