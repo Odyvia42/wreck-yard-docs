@@ -12,10 +12,10 @@ export default defineConfig({
 			sidebar: [
 				{ label: 'О проекте', slug: 'about' },
 				{					
-					label: 'Guides',
+					label: 'Leyland',
 					items: [
 						// Each item here is one entry in the navigation menu.
-						{ label: 'Example Guide', slug: 'guides/example' },
+						{ label: 'Leyland P76 1973-1976', slug: 'guides/example' },
 					],
 				},				
 			],
