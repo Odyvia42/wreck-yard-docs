@@ -12,6 +12,6 @@
   line-height: 1.4;
 }
 
-.right-sidebar-panel a[href="#_top"] {
+.right-sidebar-panel a[href="#_top"]:not(.toc-back-to-top) {
   display: none;
 }
