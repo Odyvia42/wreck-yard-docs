@@ -15,3 +15,10 @@
 .right-sidebar-panel a[href="#_top"]:not(.toc-back-to-top) {
   display: none;
 }
+
+
+.hero .hero-img,
+.hero .hero-html img {
+  object-fit: contain;
+  height: auto;
+}
