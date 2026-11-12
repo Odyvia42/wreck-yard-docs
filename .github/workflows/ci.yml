@@ -17,3 +17,8 @@ jobs:
         uses: withastro/action@v3
         with:
           node-version: 22
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
