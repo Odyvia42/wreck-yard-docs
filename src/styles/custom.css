@@ -6,3 +6,10 @@
   width: 15rem;
   max-width: 15rem;
 }
+
+.right-sidebar-panel h2,
+.right-sidebar-panel h3,
+.right-sidebar-panel .sl-link {
+  font-size: 1rem;          /* базовый размер ссылок и заголовков в панели */
+  line-height: 1.4;         /* чуть больше межстрочный интервал для читаемости */
+}
