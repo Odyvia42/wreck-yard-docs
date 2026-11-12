@@ -17,10 +17,8 @@
 }
 
 
-.hero > img {
+.hero .hero-html img {
   width: 100%;
-  max-width: 25rem;        /* или сколько нужно */
-  height: auto !important;
-  aspect-ratio: auto !important;  /* сбрасывает принудительный квадрат */
-  object-fit: contain !important;
+  max-width: 25rem;
+  height: auto;
 }
