@@ -1,0 +1,14 @@
+---
+import Default from '@astrojs/starlight/components/TableOfContents.astro';
+---
+
+<a class="toc-back-to-top" href="#_top">В начало</a>
+<Default><slot /></Default>
+
+<style>
+  .toc-back-to-top {
+    display: block;
+    font-size: var(--sl-text-xs);
+    margin-bottom: 0.5rem;
+  }
+</style>

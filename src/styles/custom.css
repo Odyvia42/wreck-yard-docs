@@ -11,3 +11,7 @@
   font-size: 1rem;      /* размер текста пунктов TOC */
   line-height: 1.4;
 }
+
+.right-sidebar-panel a[href="#_top"] {
+  display: none;
+}

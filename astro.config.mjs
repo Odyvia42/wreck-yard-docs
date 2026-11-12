@@ -10,6 +10,9 @@ export default defineConfig({
 		starlight({
 			title: 'Энциклопедия Wreck Yard',
 			customCss: ['./src/styles/custom.css'],
+			components: {
+                TableOfContents: './src/components/TableOfContents.astro',
+            },
 			sidebar: [
 				{ label: 'О проекте', slug: 'about' },
 				{					
