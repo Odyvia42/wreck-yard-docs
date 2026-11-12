@@ -1,3 +1,8 @@
 :root {
   --sl-content-width: 60rem;  /* шире дефолта, но с полями */
 }
+
+.right-sidebar-panel .sl-container {
+  width: 15rem;
+  max-width: 15rem;
+}
