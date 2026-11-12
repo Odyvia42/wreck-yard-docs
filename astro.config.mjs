@@ -9,6 +9,7 @@ export default defineConfig({
 	integrations: [
 		starlight({
 			title: 'Энциклопедия Wreck Yard',
+			customCss: ['./src/styles/custom.css'],
 			sidebar: [
 				{ label: 'О проекте', slug: 'about' },
 				{					
