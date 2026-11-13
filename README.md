@@ -1,49 +1,5 @@
-# Starlight Starter Kit: Basics
+**Энциклопедия Wreck Yard** — некоммерческий интернет-проект, родившийся из рубрики День автомобиля в паблике [Wreck Yard](https://vk.ru/wreck_yard). Рубрика выходила еженедельно с 2015 по 2019 годы, после продолжила публиковаться нерегулярно. За это время у меня накопилось множество статей о различных автомобилях, которые требовали хотя бы систематизации (о контроле версий речь, разумеется, тогда не шла). 
 
-[![Built with Starlight](https://astro.badg.es/v2/built-with-starlight/tiny.svg)](https://starlight.astro.build)
+Первая систематизированная версия была создана на основе вики-страниц Вконтакте и [доступна до сих пор](https://vk.ru/page-85629584_54089311). Она же является единственным публично доступным хранилищем всех статей. Примерно в то же время я стал задумываться об отдельной энциклопедии, независимой от Вконтакте или другой социальной сети. Для этого требовался бы отдельный сайт — и это стало второй итерацией энциклопедии. Сайт создавался на Django, данные должны были подгружаться динамически из PostgreSQL. Правда, эта версия так и осталась драфтом, в публичный доступ не вышла, а вскоре работа по ней была заброшена.
 
-```
-npm create astro@latest -- --template starlight
-```
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro + Starlight project, you'll see the following folders and files:
-
-```
-.
-├── public/
-├── src/
-│   ├── assets/
-│   ├── content/
-│   │   └── docs/
-│   └── content.config.ts
-├── astro.config.mjs
-├── package.json
-└── tsconfig.json
-```
-
-Starlight looks for `.md` or `.mdx` files in the `src/content/docs/` directory. Each file is exposed as a route based on its file name.
-
-Images can be added to `src/assets/` and embedded in Markdown with a relative link.
-
-Static assets, like favicons, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Check out [Starlight’s docs](https://starlight.astro.build/), read [the Astro documentation](https://docs.astro.build), or jump into the [Astro Discord server](https://astro.build/chat).
+Сайт, на котором вы находитесь сейчас — эта третья итерация энциклопедии, переосмысленная в подходе Docs as Code. По сути, любая энциклопедия — это тоже своего рода документация, просто специфическая, да и контент практически весь статичный. Поэтому теперь никаких сложных бэкендов с динамической подгрузкой контента из БД — только статика, только хардкод =)
