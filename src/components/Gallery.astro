@@ -1,0 +1,245 @@
+---
+type GalleryImage = { src: string; alt: string; caption?: string };
+
+interface Props {
+  images?: GalleryImage[];
+}
+
+const { images = [] } = Astro.props;
+
+// префикс базы сайта: картинки из public/ станут /wreck-yard-docs/gallery/...
+const base = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : import.meta.env.BASE_URL + '/';
+
+const resolve = (src: string) =>
+  /^https?:\/\//.test(src) ? src : base + src.replace(/^\//, '');
+---
+
+{
+  images.length > 0 && (
+    <div class="gallery">
+      {images.map((img, i) => (
+        <button
+          type="button"
+          class="gallery-thumb"
+          data-src={resolve(img.src)}
+          data-alt={img.alt ?? ''}
+          data-caption={img.caption ?? ''}
+          aria-label={`Открыть изображение ${i + 1} из ${images.length}`}
+        >
+          <img src={resolve(img.src)} alt={img.alt ?? ''} loading="lazy" decoding="async" />
+        </button>
+      ))}
+    </div>
+  )
+}
+
+<style is:global>
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.75rem;
+    margin: 1.5rem 0;
+  }
+  .gallery-thumb {
+    display: block;
+    padding: 0;
+    border: 0;
+    background: none;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    cursor: zoom-in;
+  }
+  .gallery-thumb img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    transition: transform 0.2s ease;
+  }
+  .gallery-thumb:hover img {
+    transform: scale(1.04);
+  }
+
+  .gallery-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgb(0 0 0 / 80%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+  .gallery-lightbox[hidden] {
+    display: none;
+  }
+
+  .glb-frame {
+    position: relative;
+    width: fit-content;
+    max-width: min(90vw, 1200px);
+  }
+  .glb-img {
+    display: block;
+    max-width: 100%;
+    max-height: 78vh;
+    width: auto;
+    height: auto;
+    border-radius: 0.25rem;
+  }
+
+  /* кликабельные зоны по левому и правому краю картинки */
+  .glb-zone {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 25%;
+    border: 0;
+    background: none;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+  .glb-zone--prev {
+    left: 0;
+    justify-content: flex-start;
+    padding-left: 0.5rem;
+  }
+  .glb-zone--next {
+    right: 0;
+    justify-content: flex-end;
+    padding-right: 0.5rem;
+  }
+  .glb-frame:hover .glb-zone:not(:disabled) {
+    opacity: 0.9;
+  }
+  .glb-zone:disabled {
+    cursor: default;
+    opacity: 0;
+  }
+  .glb-zone svg {
+    filter: drop-shadow(0 0 4px rgb(0 0 0 / 60%));
+  }
+
+  .glb-caption {
+    color: #fff;
+    text-align: center;
+    margin: 0.75rem 0 0;
+    font-size: 0.9rem;
+    max-width: min(90vw, 1200px);
+  }
+  .glb-caption[hidden] {
+    display: none;
+  }
+
+  .glb-close {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 0;
+    border-radius: 50%;
+    background: rgb(255 255 255 / 15%);
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .glb-close:hover {
+    background: rgb(255 255 255 / 25%);
+  }
+</style>
+
+<script>
+  function initGallery() {
+    if (document.querySelector('.gallery-lightbox')) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'gallery-lightbox';
+    overlay.hidden = true;
+    overlay.innerHTML = `
+      <button type="button" class="glb-close" aria-label="Закрыть (Esc)">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <div class="glb-frame">
+        <button type="button" class="glb-zone glb-zone--prev" aria-label="Предыдущее изображение">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg>
+        </button>
+        <img class="glb-img" alt="" decoding="async" />
+        <button type="button" class="glb-zone glb-zone--next" aria-label="Следующее изображение">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+      <p class="glb-caption"></p>
+    `;
+    document.body.appendChild(overlay);
+
+    const img = overlay.querySelector('.glb-img');
+    const caption = overlay.querySelector('.glb-caption');
+    const zonePrev = overlay.querySelector('.glb-zone--prev');
+    const zoneNext = overlay.querySelector('.glb-zone--next');
+
+    let items = [];
+    let index = 0;
+
+    function show(i) {
+      index = i;
+      const item = items[i];
+      img.src = item.dataset.src;
+      img.alt = item.dataset.alt;
+      caption.textContent = item.dataset.caption;
+      caption.hidden = !item.dataset.caption;
+      zonePrev.disabled = i === 0;                       // первая — назад нельзя
+      zoneNext.disabled = i === items.length - 1;        // последняя — вперёд нельзя
+      overlay.hidden = false;
+      document.body.style.overflow = 'hidden';           // блокируем прокрутку страницы
+    }
+
+    function close() {
+      overlay.hidden = true;
+      document.body.style.overflow = '';
+      img.src = '';
+    }
+
+    // каждая галерея — свой набор слайдов
+    document.querySelectorAll('.gallery').forEach((gal) => {
+      const thumbs = gal.querySelectorAll('.gallery-thumb');
+      thumbs.forEach((thumb, i) => {
+        thumb.addEventListener('click', () => {
+          items = thumbs;
+          show(i);
+        });
+      });
+    });
+
+    zonePrev.addEventListener('click', () => {
+      if (index > 0) show(index - 1);
+    });
+    zoneNext.addEventListener('click', () => {
+      if (index < items.length - 1) show(index + 1);
+    });
+    overlay.querySelector('.glb-close').addEventListener('click', close);
+
+    // клик по тёмному фону вне картинки закрывает
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) close();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (overlay.hidden) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowLeft' && index > 0) show(index - 1);
+      if (e.key === 'ArrowRight' && index < items.length - 1) show(index + 1);
+    });
+  }
+
+  initGallery();
+</script>
