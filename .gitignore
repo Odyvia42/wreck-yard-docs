@@ -26,3 +26,6 @@ pnpm-debug.log*
 *.sublime-workspace
 .sublime/*
 .cache/
+
+
+.vscode
