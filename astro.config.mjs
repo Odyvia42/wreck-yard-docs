@@ -26,6 +26,9 @@ export default defineConfig({
 					],
 				},				
 			],
+			social: [
+                { icon: 'github', label: 'Wreck Yard on GitHub', href: 'https://github.com/Odyvia42/wreck-yard-docs' },
+            ],
 		}),
 	],
 });
